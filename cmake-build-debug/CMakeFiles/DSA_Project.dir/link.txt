@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/DSA_Project.dir/main.cpp.o  -o DSA_Project 
