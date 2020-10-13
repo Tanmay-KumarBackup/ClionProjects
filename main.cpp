@@ -57,7 +57,6 @@ int maximize(Bag *bags, int size) {
     if (bags[max].get_holdWeight() != -1) { max = -1; }//corrected
     return max;
 }
-
 int knapsack(Valuables *Resource, int Size, int W) {
     // Mapping weights with Profits
     std::map<int, int> unordered_map;
