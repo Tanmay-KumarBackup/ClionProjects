@@ -39,7 +39,7 @@ class Valuables {
 public:
     int weight;
     int cost;
-
+    bool consumed = false;
     Valuables(int c, int w) {
         this->cost = c;
         this->weight = w;
@@ -66,14 +66,16 @@ int knapsack(Valuables *Resource, int Size, int W) {
     std::vector<int> wt;
     std::vector<int> val;
     for (int i = 0; i < Size; i++) {
-        wt.push_back(Resource[i].weight);
-        val.push_back(Resource[i].cost);
-        unordered_map.insert({wt[i], val[i]});
+        if (!Resource[i].consumed) {
+            wt.push_back(Resource[i].weight);
+            val.push_back(Resource[i].cost);
+            unordered_map.insert({wt[i], val[i]});
+        }
     }
     int result = INT_MIN;
     int remaining_weight;
     int sum = 0;
-
+    std::vector<std::pair<int, int>> possible_2;
     // Loop to iterate over all the
     // possible permutations of array
     do {
@@ -99,6 +101,7 @@ int knapsack(Valuables *Resource, int Size, int W) {
         }
         sort(possible.begin(), possible.end());
         if (sum > result) {
+            possible_2 = possible;
             result = sum;
         }
         if (set_sol.find(possible) ==
@@ -111,7 +114,16 @@ int knapsack(Valuables *Resource, int Size, int W) {
             set_sol.insert(possible);
         }
     } while (next_permutation(wt.begin(), wt.end()));
-    std::cout << "Maximum value that this bag can hold is: \t" << result << std::endl;
+
+    std::cout << "\n\n";
+    for (auto sol: possible_2) {
+        std::cout << sol.first << ": "
+                  << sol.second << "\t ";
+
+    }
+
+
+    std::cout << "\n\tMaximum value that this bag can hold is: \t" << result << std::endl;
     return result;
 }
 
@@ -145,7 +157,7 @@ int main() {
     while (i != -1) {
         i = maximize(bag_arr, totalBags);// O(n)
         if (i != -1) {
-            std::cout << "The Table for (" << bag_arr[i].get_ID() << ") is as followed:\t" << std::endl;
+            std::cout << "The Table for (" << Bag_char[i] << ") is as followed:\t" << std::endl;
             bag_arr[i] = Bag(knapsack(resource_arr, val_size, bag_arr[i].get_weight()));//O(2^n)
         }
     }
