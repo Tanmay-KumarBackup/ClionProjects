@@ -56,6 +56,15 @@ int maximize(Bag *bags, int size) {
     return max;
 }
 
+void findAndSet(Valuables *Resource, int fWeight, int fCost, int Size) {
+    for (i = 0; i < Size; i++) {
+        if (Resource[i].weight == fWeight && Resource[i].cost == fCost) {
+            Resource[i].consumed = true;
+            break;
+        }
+    }
+}
+
 int knapsack(Valuables *Resource, int Size, int W) {
     // Mapping weights with Profits
     std::map<int, int> unordered_map;
@@ -115,15 +124,13 @@ int knapsack(Valuables *Resource, int Size, int W) {
         }
     } while (next_permutation(wt.begin(), wt.end()));
 
-    std::cout << "\n\n";
+    std::cout << "\n";
     for (auto sol: possible_2) {
         std::cout << sol.first << ": "
                   << sol.second << "\t ";
-
+        //findAndSet(Resource, sol.first, sol.second ,Size);
     }
-
-
-    std::cout << "\n\tMaximum value that this bag can hold is: \t" << result << std::endl;
+    std::cout << "\nMaximum value that this bag can hold is: \t" << result << std::endl;
     return result;
 }
 
@@ -153,12 +160,14 @@ int main() {
                          Bag_char[i]);//naming all the bags and also the maximum amount of weight that bag can hold...
     }
     //now i will approach to solve 0/1 knapsack problem for every bag
-    //starting with the maximum weighting bag, and slowly moving to the next bag
+    //starting with the maximum weighting bag, and then moving to the next bag
     while (i != -1) {
         i = maximize(bag_arr, totalBags);// O(n)
         if (i != -1) {
             std::cout << "The Table for (" << Bag_char[i] << ") is as followed:\t" << std::endl;
-            bag_arr[i] = Bag(knapsack(resource_arr, val_size, bag_arr[i].get_weight()));//O(2^n)
+            bag_arr[i] = Bag(
+                    knapsack(resource_arr, val_size, bag_arr[i].get_weight())
+            );//O(2^n)
         }
     }
     return 0;
