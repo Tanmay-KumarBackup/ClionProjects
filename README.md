@@ -8,14 +8,22 @@ so the algorithm is designed in such a way that the algorithm will select the ba
 
 input:
 the total number of valuables <int numValuables>
+
 the total number of bags <int numBag>
+
 the data of valuables <int Cost>  <int Weight>
+
 the weight of bags <int weightBags>
 
 output:
 selects the largest bag first
+
 gives the array of expected selection set of valuables
+
 selects the most optimized selection of valables
+
 returns the maximum cost that could be fetched from that respected bag
+
 removes the valuables that are already been selected from the the valuablesArray
+
 continues the loop to give output of second largest bag and so on..
