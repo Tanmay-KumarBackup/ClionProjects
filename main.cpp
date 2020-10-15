@@ -6,9 +6,7 @@
 #include<set>
 #include<algorithm>
 #include<climits>
-
 int i;
-
 class Bag {
     int weight{};
     int holding_weight = -1;
@@ -41,7 +39,6 @@ class Valuables {
 public:
     int weight;
     int cost;
-    bool consumed = 0;
 
     Valuables(int c, int w) {
         this->cost = c;
@@ -49,6 +46,7 @@ public:
     }
 };
 
+//int max(int a, int b) { return (a > b) ? a : b; }
 int maximize(Bag *bags, int size) {
     int max = 0;
     for (i = 0; i < size; i++) {
@@ -57,6 +55,7 @@ int maximize(Bag *bags, int size) {
     if (bags[max].get_holdWeight() != -1) { max = -1; }//corrected
     return max;
 }
+
 int knapsack(Valuables *Resource, int Size, int W) {
     // Mapping weights with Profits
     std::map<int, int> unordered_map;
@@ -67,17 +66,16 @@ int knapsack(Valuables *Resource, int Size, int W) {
     std::vector<int> wt;
     std::vector<int> val;
     for (int i = 0; i < Size; i++) {
-        if (Resource[i].consumed == 0) {
-            wt.push_back(Resource[i].weight);
-            val.push_back(Resource[i].cost);
-
-            unordered_map.insert({wt[i], val[i]});
-        }
+        wt.push_back(Resource[i].weight);
+        val.push_back(Resource[i].cost);
+        unordered_map.insert({wt[i], val[i]});
     }
     int result = INT_MIN;
     int remaining_weight;
     int sum = 0;
 
+    // Loop to iterate over all the
+    // possible permutations of array
     do {
         sum = 0;
 
@@ -103,23 +101,21 @@ int knapsack(Valuables *Resource, int Size, int W) {
         if (sum > result) {
             result = sum;
         }
-        if (set_sol.find(possible) == set_sol.end()) {
+        if (set_sol.find(possible) ==
+            set_sol.end()) {
             for (auto sol: possible) {
-                std::cout << sol.first << ": " << sol.second << ", ";
-
+                std::cout << sol.first << ": "
+                          << sol.second << ", ";
             }
             std::cout << std::endl;
             set_sol.insert(possible);
         }
     } while (next_permutation(wt.begin(), wt.end()));
-
-
     std::cout << "Maximum value that this bag can hold is: \t" << result << std::endl;
     return result;
 }
 
 char Bag_char[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 int main() {
     int val_size;
     std::cout << "enter the number of valuables\t";
@@ -153,6 +149,5 @@ int main() {
             bag_arr[i] = Bag(knapsack(resource_arr, val_size, bag_arr[i].get_weight()));//O(2^n)
         }
     }
-
     return 0;
 }
