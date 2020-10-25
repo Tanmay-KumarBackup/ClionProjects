@@ -1,4 +1,4 @@
-# ClionProjects
+# Multi-dimensional knapsack
 this repository will have all C programming files
 
 there is only main file in which i am trying to create a multidimensional knapsack, 
